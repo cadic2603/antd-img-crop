@@ -31,6 +31,8 @@ const deprecate = (obj: Record<string, any>, old: string, now: string) => {
 
 const ImgCrop = forwardRef<CropperRef, ImgCropProps>((props, cropperRef) => {
   const {
+    manual = true,
+
     quality = 0.4,
     fillColor = 'white',
 
@@ -202,7 +204,7 @@ const ImgCrop = forwardRef<CropperRef, ImgCropProps>((props, cropperRef) => {
     }) => {
       const rawFile = file as unknown as File;
 
-      if (typeof beforeUpload !== 'function') {
+      if (manual || typeof beforeUpload !== 'function') {
         resolve(rawFile);
         return;
       }
@@ -287,7 +289,7 @@ const ImgCrop = forwardRef<CropperRef, ImgCropProps>((props, cropperRef) => {
                   beforeUpload,
                   file: newFile as unknown as RcFile,
                   resolve: (file) => {
-                    resolve(file);
+                    resolve(manual ? false : file);
                     cb.current.onModalOk?.(file);
                   },
                   reject: (err) => {
@@ -355,7 +357,6 @@ const ImgCrop = forwardRef<CropperRef, ImgCropProps>((props, cropperRef) => {
           onCancel={onCancel.current}
           onOk={onOk.current}
           wrapClassName={wrapClassName}
-          maskClosable={false}
           destroyOnClose
         >
           <EasyCrop

@@ -7,6 +7,8 @@ export type BeforeUpload = Exclude<UploadProps['beforeUpload'], undefined>;
 export type BeforeUploadReturnType = ReturnType<BeforeUpload>;
 
 export type ImgCropProps = {
+  manual?: boolean;
+
   quality?: number;
   fillColor?: string;
 
@@ -59,7 +61,6 @@ export type ImgCropProps = {
     | 'open'
     | 'visible'
     | 'wrapClassName'
-    | 'maskClosable'
     | 'destroyOnClose'
   >;
 
